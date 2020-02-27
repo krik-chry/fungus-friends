@@ -181,6 +181,7 @@ class App extends Component {
           mapPosition={position}
           mushroomIcon={mushroomIcon}
           allColors={Color}
+          soundMute={this.soundMute}
           allSpots={Spots}
         />
         <SoundPlayer sound={this.state.sound} />

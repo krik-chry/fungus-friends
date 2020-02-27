@@ -5,13 +5,8 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import '../styles/Map.css';
 
 function MapComponent(props) {
-  const { mapPosition, mushroomIcon, allColors, allSpots } = props;
-  const {
-    filteredMushrooms,
-    randomMushroomImages,
-    sound,
-    soundMute
-  } = props.state;
+  const { mapPosition, mushroomIcon, allColors, allSpots, soundMute } = props;
+  const { filteredMushrooms, randomMushroomImages, sound } = props.state;
 
   return (
     <div className="map-container">
