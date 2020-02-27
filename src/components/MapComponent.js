@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import '../styles/Map.css';
 
 function MapComponent(props) {
   const {

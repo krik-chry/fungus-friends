@@ -4,7 +4,6 @@ import * as data from './api';
 import MapComponent from './components/MapComponent';
 import SoundPlayer from './components/SoundPlayer';
 import Filters from './components/Filters';
-import './App.css';
 
 class App extends Component {
   state = {
@@ -171,7 +170,7 @@ class App extends Component {
           soundMute={this.soundMute}
           randomMushroomImages={this.state.randomMushroomImages}
         />
-        <SoundPlayer sound={this.state.sound} />;
+        <SoundPlayer sound={this.state.sound} />
       </>
     );
   }

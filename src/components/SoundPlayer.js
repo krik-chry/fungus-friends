@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import '../styles/SoundPlayer.css';
 
 function SoundPlayer(props) {
   const { sound } = props;
