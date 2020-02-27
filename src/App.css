@@ -1,38 +1,89 @@
-.App {
+.filters {
+  width: 30%;
+  height: 100vh;
+  float: left;
+  background-color: rgb(31, 31, 31);
+  color: #fff;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.leaflet-container {
+  width: 90%;
+  height: 80vh;
+  float: left;
+  margin: 10vh 5%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h1 {
+  margin: 5%;
+  text-align: center;
+  border-bottom: 3px solid gray;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#app-description {
+  margin: auto 10px;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.filters-area {
+  text-align: center;
+  background-color: hsl(0, 0%, 20%, 0.7);
+  width: 90%;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.color-filter,
+.spots-filter {
+  padding: 0 15%;
+  text-align: center;
+}
+
+.filter-title {
+  margin: 5px;
+}
+
+.css-2b097c-container {
+  margin-bottom: 10px;
+}
+
+#loading-text {
+  text-align: center;
+}
+
+.map-container {
+  width: 70%;
+  height: 100vh;
+  float: left;
+  background-image: url('https://cdn.hipwallpaper.com/i/69/98/EPNAb1.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.css-26l3qy-menu,
+.css-tlfecz-indicatorContainer {
+  color: hsl(0, 0%, 20%) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: hsla(0, 0%, 20%, 0.8) !important;
+  color: #fff;
+}
+
+.random-img {
+  width: 100%;
+  max-height: 200px;
+}
+
+.random-img:hover {
+  transform: scale(1.5);
+  border: 3px solid hsla(0, 0%, 20%, 0.8);
+}
+
+.mute-button {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  color: hsl(0, 0%, 20%);
 }
