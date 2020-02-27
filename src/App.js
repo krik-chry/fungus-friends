@@ -7,7 +7,7 @@ import Filters from './components/Filters';
 
 class App extends Component {
   state = {
-    mushrooms: [],
+    allMushrooms: [],
     filteredMushrooms: [],
     existingColors: [],
     existingSpots: [],
@@ -18,32 +18,45 @@ class App extends Component {
   };
 
   async componentDidMount() {
+    // Get data from provided api and add them to local state
+    // Initially both all mushrooms array and filtered mushrooms are the given data from the api.ts
     const mushrooms = await data.default();
+    await this.setState({
+      allMushrooms: mushrooms,
+      filteredMushrooms: mushrooms
+    });
 
-    await this.setState({ mushrooms: mushrooms, filteredMushrooms: mushrooms });
-
+    // Check Mushrooms properties and get the possible options for color and spots
     this.setState({
       existingColors: new Set(
-        this.state.mushrooms.map(mushroom => data.Color[mushroom.color])
+        this.state.allMushrooms.map(mushroom => data.Color[mushroom.color])
       ),
       existingSpots: new Set(
-        this.state.mushrooms.map(mushroom => data.Spots[mushroom.spots])
+        this.state.allMushrooms.map(mushroom => data.Spots[mushroom.spots])
       )
     });
 
+    // Get random mushroom images
     fetch('https://api.jsonbin.io/b/5e57a7e44f84932919713c5c')
       .then(response => response.json())
       .then(data => this.setState({ randomMushroomImages: data.images }));
   }
 
   filterMushrooms = () => {
-    const { selectedColor, selectedSpots, mushrooms } = this.state;
+    const { selectedColor, selectedSpots, allMushrooms } = this.state;
     const { Color, Spots } = data;
+
+    // This is the most confusing part, sorry :(
+    // 4 cases:
+    // - Color selectbox empty --> Filter by Spots
+    // - Spots selectbox empty --> Filter by Color
+    // - Both selected --> Filter by both properties
+    // - None selected --> Reset mushrooms to original array
     if (
       selectedColor === 'Select color...' &&
       selectedSpots !== 'Select spots...'
     ) {
-      const filteredMushrooms = mushrooms.filter(
+      const filteredMushrooms = allMushrooms.filter(
         mushroom => mushroom.spots === Spots[selectedSpots.value]
       );
       this.setState({
@@ -56,7 +69,7 @@ class App extends Component {
       selectedSpots === 'Select spots...' &&
       selectedColor !== 'Select color...'
     ) {
-      const filteredMushrooms = mushrooms.filter(
+      const filteredMushrooms = allMushrooms.filter(
         mushroom => mushroom.color === Color[selectedColor.value]
       );
       this.setState({
@@ -69,7 +82,7 @@ class App extends Component {
       selectedColor !== 'Select color...' &&
       selectedSpots !== 'Select spots...'
     ) {
-      const filteredMushrooms = mushrooms.filter(
+      const filteredMushrooms = allMushrooms.filter(
         mushroom =>
           mushroom.spots === Spots[selectedSpots.value] &&
           mushroom.color === Color[selectedColor.value]
@@ -85,15 +98,18 @@ class App extends Component {
       });
     } else {
       this.setState({
-        filteredMushrooms: mushrooms,
+        filteredMushrooms: allMushrooms,
         existingColors: new Set(
-          mushrooms.map(mushroom => Color[mushroom.color])
+          allMushrooms.map(mushroom => Color[mushroom.color])
         ),
-        existingSpots: new Set(mushrooms.map(mushroom => Spots[mushroom.spots]))
+        existingSpots: new Set(
+          allMushrooms.map(mushroom => Spots[mushroom.spots])
+        )
       });
     }
   };
 
+  // Selecting a color or spots triggers the filter function
   handleColorSelection = async selectedColor => {
     await this.setState({ selectedColor });
     this.filterMushrooms();
@@ -104,18 +120,19 @@ class App extends Component {
     this.filterMushrooms();
   };
 
+  // On clearing a selectbox,reset form and re-filter the original array with the new selections/no selections
   onClear = async selectbox => {
-    const { mushrooms } = this.state;
+    const { allMushrooms } = this.state;
     if (selectbox === 'color') {
       await this.setState({
-        filteredMushrooms: mushrooms,
+        filteredMushrooms: allMushrooms,
         selectedColor: 'Select color...'
       });
       this.filterMushrooms();
     }
     if (selectbox === 'spots') {
       await this.setState({
-        filteredMushrooms: mushrooms,
+        filteredMushrooms: allMushrooms,
         selectedSpots: 'Select spots...'
       });
       this.filterMushrooms();
@@ -129,13 +146,15 @@ class App extends Component {
   };
 
   render() {
+    // Define map and marker properties
     const position = ['52.081153', '5.236057'];
     const mushroomIcon = new L.Icon({
       iconUrl: require('./images/mushroom.svg'),
       iconSize: [50, 50]
     });
 
-    // Define select options and make it into array
+    // Define select options from api enums
+    // There must be an easier way than Set/Array.from but I am not so familiar with TS
     const { Color, Spots } = data;
     const { existingColors, existingSpots } = this.state;
 
@@ -150,25 +169,19 @@ class App extends Component {
     return (
       <>
         <Filters
-          colorOptions={colorOptions}
-          spotsOptions={spotsOptions}
-          mushrooms={this.state.mushrooms}
-          filteredMushrooms={this.state.filteredMushrooms}
-          selectedColor={this.state.selectedColor}
-          selectedSpots={this.state.selectedSpots}
+          state={this.state}
           handleColorSelection={this.handleColorSelection}
           handleSpotsSelection={this.handleSpotsSelection}
           onClear={this.onClear}
+          colorOptions={colorOptions}
+          spotsOptions={spotsOptions}
         />
         <MapComponent
+          state={this.state}
           mapPosition={position}
           mushroomIcon={mushroomIcon}
           allColors={Color}
           allSpots={Spots}
-          filteredMushrooms={this.state.filteredMushrooms}
-          sound={this.state.sound}
-          soundMute={this.soundMute}
-          randomMushroomImages={this.state.randomMushroomImages}
         />
         <SoundPlayer sound={this.state.sound} />
       </>

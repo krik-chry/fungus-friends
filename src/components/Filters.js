@@ -7,14 +7,11 @@ function Filters(props) {
   const {
     colorOptions,
     spotsOptions,
-    mushrooms,
-    filteredMushrooms,
-    selectedColor,
-    selectedSpots,
     handleColorSelection,
     handleSpotsSelection,
     onClear
   } = props;
+  const { filteredMushrooms, selectedColor, selectedSpots } = props.state;
   return (
     <div className="filters">
       <h1>Fungus Friends App</h1>
@@ -25,7 +22,9 @@ function Filters(props) {
           👇🏼
         </span>
       </p>
-      {mushrooms.length !== 0 && (
+
+      {/* Results description that checks for number,color and spots of found mushrooms */}
+      {filteredMushrooms.length !== 0 && (
         <h3>
           We found {filteredMushrooms.length}{' '}
           {selectedColor !== 'Select color...' && (
@@ -44,7 +43,9 @@ function Filters(props) {
           </span>
         </h3>
       )}
-      {mushrooms.length !== 0 ? (
+
+      {/* When promise returns a response (Mushrooms array), display the filters */}
+      {filteredMushrooms.length !== 0 ? (
         <div className="filters-area">
           <div className="color-filter">
             <p className="filter-title">Color</p>

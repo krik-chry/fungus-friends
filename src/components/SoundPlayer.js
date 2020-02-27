@@ -5,6 +5,7 @@ import '../styles/SoundPlayer.css';
 function SoundPlayer(props) {
   const { sound } = props;
   return (
+    // Background nature sounds: Hidden youtube video with play/pause functionality
     <ReactPlayer
       url="https://www.youtube.com/watch?v=d0tU18Ybcvk"
       playing={sound}

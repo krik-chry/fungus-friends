@@ -5,24 +5,24 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import '../styles/Map.css';
 
 function MapComponent(props) {
+  const { mapPosition, mushroomIcon, allColors, allSpots } = props;
   const {
-    mapPosition,
-    mushroomIcon,
-    allColors,
-    allSpots,
     filteredMushrooms,
     randomMushroomImages,
     sound,
     soundMute
-  } = props;
+  } = props.state;
 
   return (
     <div className="map-container">
+      {/* Map Setup */}
       <Map center={mapPosition} zoom={17}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
+        {/* Create a marker on the map for each mushroom */}
         {filteredMushrooms.map(mushroom => (
           <Marker
             key={mushroom.name}
@@ -47,6 +47,7 @@ function MapComponent(props) {
         ))}
       </Map>
 
+      {/* Mute sound functionality icons */}
       <div className="mute-button">
         {!sound ? (
           <FontAwesomeIcon
