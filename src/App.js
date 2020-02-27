@@ -132,7 +132,7 @@ class App extends Component {
   render() {
     const position = ['52.081153', '5.236057'];
     const mushroomIcon = new L.Icon({
-      iconUrl: require('./mushroom.svg'),
+      iconUrl: require('./images/mushroom.svg'),
       iconSize: [50, 50]
     });
 
